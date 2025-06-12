@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "731863847014",
+    "project_id": "video-notification-f8689",
+    "storage_bucket": "video-notification-f8689.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731863847014:android:d5353a72bc060f3a139da7",
+        "android_client_info": {
+          "package_name": "com.example.firebase_notification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjDBvWDBJywDmuPqHCKvT8zHQlt9DoBzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
