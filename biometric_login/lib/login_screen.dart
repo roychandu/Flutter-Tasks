@@ -15,12 +15,7 @@ void _authenticate(BuildContext context) async {
   try {
     bool authenticated = await auth.authenticate(
       localizedReason: 'Please authenticate to access the app',
-      authMessages: <AuthMessages>[
-        AndroidAuthMessages(
-          signInTitle: 'Biometric Login',
-          cancelButton: 'Cancel',
-        ),
-      ],
+
       options: const AuthenticationOptions(
         useErrorDialogs: true,
         stickyAuth: false,
@@ -61,13 +56,78 @@ void _checkDeviceSupport() async {
   }
 }
 
+void customBiometricSheet(BuildContext context) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  showModalBottomSheet(
+    context: context,
+    isDismissible: false,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    backgroundColor: Colors.blueGrey[900],
+    builder: (context) {
+      return Container(
+        width: screenWidth,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onLongPress: () {},
+              child: Icon(
+                Icons.fingerprint,
+                color: Colors.white,
+                size: screenWidth * 0.3,
+              ),
+            ),
+            Text(
+              textAlign: TextAlign.center,
+              'Please hold your finger at the\n fingerprint scanner to verfiy your\n identity',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.blue, fontSize: 18),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  child: Text(
+                    'User Password',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // _checkDeviceSupport();
-    _authenticate(context);
+    // _authenticate(context);
+    Future.delayed(Duration.zero, () {
+      customBiometricSheet(context);
+    });
   }
 
   @override
