@@ -23,7 +23,8 @@ void _authenticate(BuildContext context) async {
       ],
       options: const AuthenticationOptions(
         useErrorDialogs: true,
-        stickyAuth: true,
+        stickyAuth: false,
+        // biometricOnly: true,
       ),
     );
 

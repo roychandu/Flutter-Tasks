@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.green,
         body: Center(
           child: Text(
+            textAlign: TextAlign.center,
             'Successful Login \n Using Fingur print!',
             style: TextStyle(
               fontSize: 30,
