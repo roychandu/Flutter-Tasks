@@ -25,7 +25,7 @@ void _authenticate(BuildContext context) async {
 
     if (authenticated) {
       print('User authenticated successfully');
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
@@ -66,13 +66,15 @@ void customBiometricSheet(BuildContext context) {
     ),
     backgroundColor: Colors.blueGrey[900],
     builder: (context) {
-      return Container(
+      return SizedBox(
         width: screenWidth,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             GestureDetector(
-              onLongPress: () {},
+              onLongPress: () {
+                _authenticate(context);
+              },
               child: Icon(
                 Icons.fingerprint,
                 color: Colors.white,
@@ -100,7 +102,12 @@ void customBiometricSheet(BuildContext context) {
                 ),
                 ElevatedButton(
                   onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(8),
+                    ),
+                  ),
                   child: Text(
                     'User Password',
                     style: TextStyle(

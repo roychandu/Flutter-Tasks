@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Center(
           child: Text(
             textAlign: TextAlign.center,
-            'Successful Login \n Using Fingur print!',
+            'Successful Login Using \n Fingur print!',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
