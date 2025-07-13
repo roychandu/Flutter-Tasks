@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:biometric_login/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -37,20 +38,43 @@ void _authenticate(BuildContext context) async {
   }
 }
 
-void _checkDeviceSupport() async {
+void _checkDeviceSupport(BuildContext context) async {
   final LocalAuthentication auth = LocalAuthentication();
   bool canCheckBiometrics = await auth.canCheckBiometrics;
   bool isDeviceSupported = await auth.isDeviceSupported();
 
   if (isDeviceSupported) {
-    print('Device supports biometrics');
-    List<BiometricType> biometrics = await auth.getAvailableBiometrics();
-    print(biometrics);
-    if (biometrics.isNotEmpty) {
-      print('Available biometrics: $biometrics');
-    } else {
-      print('No biometrics available');
-    }
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(
+          'Biometric Not Available',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Text(
+          'To use biometric login, please enable fingerprint or face ID in your device settings.',
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              AppSettings.openAppSettings(
+                type: AppSettingsType.lockAndPassword,
+              );
+            },
+            child: Text('Open Settings', style: TextStyle(color: Colors.blue)),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel', style: TextStyle(color: Colors.blue)),
+          ),
+        ],
+        backgroundColor: Colors.grey[900],
+      ),
+    );
   } else {
     print('Device does not support biometrics');
   }
@@ -130,11 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // _checkDeviceSupport();
+    _checkDeviceSupport(context);
     // _authenticate(context);
-    Future.delayed(Duration.zero, () {
-      customBiometricSheet(context);
-    });
+    // Future.delayed(Duration.zero, () {
+    //   customBiometricSheet(context);
+    // });
   }
 
   @override
