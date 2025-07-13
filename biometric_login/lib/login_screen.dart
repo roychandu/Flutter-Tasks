@@ -43,38 +43,45 @@ void _checkDeviceSupport(BuildContext context) async {
   bool canCheckBiometrics = await auth.canCheckBiometrics;
   bool isDeviceSupported = await auth.isDeviceSupported();
 
-  if (isDeviceSupported) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text(
-          'Biometric Not Available',
-          style: TextStyle(color: Colors.white),
-        ),
-        content: Text(
-          'To use biometric login, please enable fingerprint or face ID in your device settings.',
-          style: TextStyle(color: Colors.white),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              AppSettings.openAppSettings(
-                type: AppSettingsType.lockAndPassword,
-              );
-            },
-            child: Text('Open Settings', style: TextStyle(color: Colors.blue)),
+  if (canCheckBiometrics) {
+    if (!isDeviceSupported) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text(
+            'Biometric Not Available',
+            style: TextStyle(color: Colors.white),
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Cancel', style: TextStyle(color: Colors.blue)),
+          content: Text(
+            'To use biometric login, please enable fingerprint or face ID in your device settings.',
+            style: TextStyle(color: Colors.white),
           ),
-        ],
-        backgroundColor: Colors.grey[900],
-      ),
-    );
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                AppSettings.openAppSettings(
+                  type: AppSettingsType.lockAndPassword,
+                );
+              },
+              child: Text(
+                'Open Settings',
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+          backgroundColor: Colors.grey[900],
+        ),
+      );
+    } else {
+      _authenticate(context);
+    }
   } else {
     print('Device does not support biometrics');
   }
@@ -97,7 +104,7 @@ void customBiometricSheet(BuildContext context) {
           children: [
             GestureDetector(
               onLongPress: () {
-                _authenticate(context);
+                _checkDeviceSupport(context);
               },
               child: Icon(
                 Icons.fingerprint,
@@ -154,11 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _checkDeviceSupport(context);
+    // _checkDeviceSupport(context);
     // _authenticate(context);
-    // Future.delayed(Duration.zero, () {
-    //   customBiometricSheet(context);
-    // });
+    Future.delayed(Duration.zero, () {
+      customBiometricSheet(context);
+    });
   }
 
   @override
